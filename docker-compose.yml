@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:alpine
+    container_name: concrete-db
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - concrete-db:/var/lib/postgresql/data
+    networks:
+      - base
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: concrete
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: concrete-admin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@docker.com'
+      PGADMIN_DEFAULT_PASSWORD: 'docker'
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+    networks:
+      - base
+
+volumes:
+  concrete-db:
+
+networks:
+  base:
