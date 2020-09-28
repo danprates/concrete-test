@@ -1,0 +1,32 @@
+version: '3.2'
+services:
+  api:
+    image: node:14-alpine
+    container_name: concrete-api
+    restart: always
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    networks:
+      - base
+    command: sh -c "npm i && npm run build && npm run migration:run && npm run pm2"
+
+  db:
+    image: postgres:alpine
+    container_name: concrete-db
+    restart: always
+    networks:
+      - base
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: concrete
+
+networks:
+  base:
