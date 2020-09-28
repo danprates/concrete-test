@@ -8,4 +8,6 @@ export const {
   DB_USER = 'docker',
   DB_PASS = 'docker',
   DB_NAME = 'concrete',
+  ENCRIPTION_SALT = 'salt',
+  JWT_SECRET = 'secret',
 } = process.env;

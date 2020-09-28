@@ -16,8 +16,8 @@ const databaseConfig: ConnectionOptions = {
   username: DB_USER,
   password: DB_PASS,
   database: DB_NAME,
-  entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  migrations: [__dirname + '/database/migrations/**/*{.ts,.js}'],
+  entities: [__dirname + '../../**/*.entity{.ts,.js}'],
+  migrations: [__dirname + '../../database/migrations/**/*{.ts,.js}'],
   migrationsTableName: 'migrations',
   migrationsRun: false,
   cli: {
