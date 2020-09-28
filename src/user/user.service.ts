@@ -18,7 +18,7 @@ export class UserService {
   async create({ phones, ...data }: SignupDto): Promise<any> {
     try {
       const user = this.userRepository.create(data);
-      await user.save();
+      await this.userRepository.save(user);
 
       if (phones && phones.length > 0) {
         const phoneData = phones.map(phone => ({ ...phone, userId: user.id }));
