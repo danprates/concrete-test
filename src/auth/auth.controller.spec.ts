@@ -38,12 +38,12 @@ describe('AuthController', () => {
   describe('login', () => {
     it('should pass correct params to dependencies', async () => {
       authServiceMock.login.mockResolvedValueOnce(true);
-      const req = { user: { userId: 'foo' } };
+      const req = { user: { id: 'foo' } };
 
       const result = await controller.login(req);
 
       expect(result).toBeTruthy();
-      expect(authServiceMock.login).toHaveBeenNthCalledWith(1, req.user);
+      expect(authServiceMock.login).toHaveBeenNthCalledWith(1, req.user.id);
     });
   });
 });

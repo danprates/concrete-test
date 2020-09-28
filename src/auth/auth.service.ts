@@ -30,8 +30,8 @@ export class AuthService {
     return this.generateToken(user);
   }
 
-  async login({ id }: any): Promise<User> {
-    const user = await this.userService.findById(id);
+  async login(userId: string): Promise<User> {
+    const user = await this.userService.findById(userId);
 
     return this.generateToken(user);
   }
