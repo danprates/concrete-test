@@ -4,18 +4,26 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { User } from './user.entity';
 import { SignupDto } from 'src/auth/dto/signup.dto';
+import { Phone } from './phone.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Phone)
+    private readonly phoneRepository: Repository<Phone>,
   ) {}
 
-  async create(data: SignupDto): Promise<User> {
+  async create({ phones, ...data }: SignupDto): Promise<any> {
     try {
       const user = this.userRepository.create(data);
       await user.save();
+
+      if (phones && phones.length > 0) {
+        const phoneData = phones.map(phone => ({ ...phone, userId: user.id }));
+        user.phones = await this.phoneRepository.save(phoneData);
+      }
 
       return user;
     } catch (error) {

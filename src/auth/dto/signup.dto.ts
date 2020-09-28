@@ -4,7 +4,10 @@ import {
   IsEmail,
   IsNotEmpty,
   IsString,
+  IsOptional,
+  IsArray,
 } from 'class-validator';
+import { Phone } from '../../user/phone.entity';
 
 /**
  * Signup dto
@@ -33,4 +36,11 @@ export class SignupDto {
   @IsNotEmpty()
   @MinLength(6)
   readonly password: string;
+
+  /**
+   * user phones
+   */
+  @IsArray()
+  @IsOptional()
+  readonly phones?: Pick<Phone, 'ddd' | 'value'>[];
 }

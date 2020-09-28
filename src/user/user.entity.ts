@@ -5,10 +5,12 @@ import {
   Unique,
   BaseEntity,
   BeforeInsert,
+  OneToMany,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { createHmac } from 'crypto';
 import { ENCRIPTION_SALT } from '../config/constants.config';
+import { Phone } from './phone.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -19,7 +21,7 @@ export class User extends BaseEntity {
   name: string;
 
   @Unique('email', ['email'])
-  @Column({ length: 255, nullable: false })
+  @Column({ length: 255, nullable: false, unique: true })
   email: string;
 
   @Exclude()
@@ -47,9 +49,15 @@ export class User extends BaseEntity {
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
     name: 'updated_at',
-    onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @OneToMany(
+    () => Phone,
+    phone => phone.user,
+    { eager: true },
+  )
+  phones?: Phone[];
 
   private hashPassword(password: string): string {
     return createHmac('sha256', ENCRIPTION_SALT)
